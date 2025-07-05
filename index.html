@@ -1,1 +1,57 @@
-placeholder
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReHa Companion</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#a0c4ff" />
+</head>
+<body>
+  <section id="home" class="tab active">
+    <h1>🏠 Home</h1>
+    <p id="time">🕒 Aktuelle Zeit: --:--</p>
+    <p id="countdown">⏳ Nächste Session in: -- Minuten</p>
+    <ul id="session-list"></ul>
+  </section>
+
+  <section id="calendar" class="tab">
+    <h1>📅 Kalender</h1>
+    <p>Hier kommt der Kalenderinhalt hin.</p>
+  </section>
+
+  <section id="user" class="tab">
+    <h1>👤 Benutzerinfo</h1>
+    <p>Name: <input type="text" placeholder="Name eingeben" /></p>
+    <p>Patientennummer: <input type="text" /></p>
+    <p>Zimmer: <input type="text" /></p>
+    <p>Etage: <input type="text" /></p>
+    <p>Bezugstherapeut:in: <input type="text" /></p>
+    <p>
+      Startdatum: <input type="date" />
+      Enddatum: <input type="date" />
+    </p>
+    <p>
+      Theme:
+      <select>
+        <option value="calm" selected>Calm</option>
+        <option value="dark">Dark</option>
+      </select>
+    </p>
+    <div class="actions">
+      <button onclick="exportBackup()">📤 Backup exportieren</button>
+      <input type="file" accept=".json" onchange="importBackup(event)" />
+      <button onclick="clearData()">🗑️ Daten löschen</button>
+    </div>
+  </section>
+
+  <nav class="footer-nav">
+    <button onclick="switchTab('home')">🏠</button>
+    <button onclick="switchTab('calendar')">📅</button>
+    <button onclick="switchTab('user')">👤</button>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>

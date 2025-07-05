@@ -1,0 +1,21 @@
+{
+  "schedule": [
+    {
+      "date": "2025-07-01",
+      "appointments": [
+        {
+          "time": "07:30",
+          "activity": "Bewegungstraining",
+          "staff": "Frau Schmidt",
+          "location": "UG Flur D Turnhalle"
+        },
+        {
+          "time": "10:30",
+          "activity": "Körpertherapie-Gruppe",
+          "staff": "Frau Langhammer",
+          "location": "UG Flur D Gymnastikraum 370"
+        }
+      ]
+    }
+  ]
+}

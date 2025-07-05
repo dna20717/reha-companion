@@ -7,7 +7,31 @@ function updateTime() {
 setInterval(updateTime, 1000);
 updateTime();
 
-function loadSessions() {
+function getCalendarWeek(d) {
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const dayNum = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1));
+  return Math.ceil((((date - yearStart) / 86400000) + 1)/7);
+}
+
+function loadCurrentWeek() {
+  const today = new Date();
+  const cw = getCalendarWeek(today);
+  const url = `plans/cw${cw}.json`;
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      localStorage.setItem("reha-sessions", JSON.stringify(data.schedule));
+      renderToday();
+    })
+    .catch(err => {
+      console.error("Fehler beim Laden der Wochenplanung:", err);
+    });
+}
+
+function renderToday() {
   const data = localStorage.getItem("reha-sessions");
   if (!data) return;
 
@@ -35,7 +59,7 @@ function loadSessions() {
       list.appendChild(card);
     });
   } catch (err) {
-    alert("Fehler beim Laden der Sessions.");
+    alert("Fehler beim Anzeigen der Sessions.");
   }
 }
 
@@ -49,28 +73,6 @@ function exportBackup() {
   link.download = `reha-backup-${timestamp}.json`;
   link.click();
   URL.revokeObjectURL(url);
-}
-
-function importBackup(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function () {
-    try {
-      const imported = JSON.parse(reader.result);
-      if (!Array.isArray(imported)) {
-        alert("Import fehlgeschlagen: Unerwartetes Format.");
-        return;
-      }
-      localStorage.setItem("reha-sessions", JSON.stringify(imported));
-      loadSessions();
-      alert("Import erfolgreich!");
-    } catch (err) {
-      alert("Import fehlgeschlagen: Keine gültige JSON.");
-    }
-  };
-  reader.readAsText(file);
 }
 
 function clearData() {
@@ -91,6 +93,6 @@ function switchTab(id) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadSessions();
+  loadCurrentWeek();
   switchTab("home");
 });

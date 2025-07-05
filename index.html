@@ -13,12 +13,12 @@
     <h1>🏠 Home</h1>
     <p id="time">🕒 Aktuelle Zeit: --:--</p>
     <p id="countdown">⏳ Nächste Session in: -- Minuten</p>
-    <ul id="session-list"></ul>
+    <div id="session-list" class="session-container"></div>
   </section>
 
   <section id="calendar" class="tab">
     <h1>📅 Kalender</h1>
-    <p>Hier kommt der Kalenderinhalt hin.</p>
+    <p>Wird bald eingebaut.</p>
   </section>
 
   <section id="user" class="tab">
@@ -32,13 +32,6 @@
       Startdatum: <input type="date" />
       Enddatum: <input type="date" />
     </p>
-    <p>
-      Theme:
-      <select>
-        <option value="calm" selected>Calm</option>
-        <option value="dark">Dark</option>
-      </select>
-    </p>
     <div class="actions">
       <button onclick="exportBackup()">📤 Backup exportieren</button>
       <input type="file" accept=".json" onchange="importBackup(event)" />
@@ -47,7 +40,7 @@
   </section>
 
   <nav class="footer-nav">
-    <button onclick="switchTab('home')">🏠</button>
+    <button onclick="switchTab('home')" class="active">🏠</button>
     <button onclick="switchTab('calendar')">📅</button>
     <button onclick="switchTab('user')">👤</button>
   </nav>

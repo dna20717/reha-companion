@@ -4,7 +4,6 @@ function updateTime() {
     now.getHours().toString().padStart(2, '0')
   }:${now.getMinutes().toString().padStart(2, '0')}`;
 }
-
 setInterval(updateTime, 1000);
 updateTime();
 
@@ -16,10 +15,24 @@ function loadSessions() {
     const sessions = JSON.parse(data);
     const list = document.getElementById("session-list");
     list.innerHTML = "";
-    sessions.forEach(session => {
-      const item = document.createElement("li");
-      item.textContent = `${session.emoji} ${session.zeit} – ${session.typ} mit ${session.mitarbeiter} (${session.ort})`;
-      list.appendChild(item);
+
+    const today = new Date().toISOString().split("T")[0];
+    const daySessions = sessions.find(day => day.date === today);
+
+    if (!daySessions) {
+      list.innerHTML = "<p>Heute sind keine Sessions geplant.</p>";
+      return;
+    }
+
+    daySessions.sessions.forEach(session => {
+      const card = document.createElement("div");
+      card.className = "session-card";
+      card.innerHTML = `
+        <h2>${session.time} – ${session.activity}</h2>
+        <p>👤 ${session.staff}</p>
+        <p>📍 ${session.location}</p>
+      `;
+      list.appendChild(card);
     });
   } catch (err) {
     alert("Fehler beim Laden der Sessions.");
@@ -46,9 +59,13 @@ function importBackup(event) {
   reader.onload = function () {
     try {
       const imported = JSON.parse(reader.result);
+      if (!Array.isArray(imported)) {
+        alert("Import fehlgeschlagen: Unerwartetes Format.");
+        return;
+      }
       localStorage.setItem("reha-sessions", JSON.stringify(imported));
       loadSessions();
-      alert("Backup erfolgreich importiert!");
+      alert("Import erfolgreich!");
     } catch (err) {
       alert("Import fehlgeschlagen: Keine gültige JSON.");
     }
@@ -71,14 +88,6 @@ function switchTab(id) {
   if (index >= 0) {
     document.querySelectorAll(".footer-nav button")[index].classList.add("active");
   }
-}
-
-if (!localStorage.getItem("reha-sessions")) {
-  const dummySessions = [
-    { zeit: "09:00", typ: "Einzel", ort: "Raum 203", mitarbeiter: "Herr Brenner", emoji: "🧘" },
-    { zeit: "11:00", typ: "Gruppe", ort: "Raum 101", mitarbeiter: "Frau Schwarz", emoji: "💬" }
-  ];
-  localStorage.setItem("reha-sessions", JSON.stringify(dummySessions));
 }
 
 document.addEventListener("DOMContentLoaded", () => {

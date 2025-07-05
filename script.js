@@ -15,19 +15,16 @@ function getCalendarWeek(d) {
   return Math.ceil((((date - yearStart) / 86400000) + 1)/7);
 }
 
-function loadCurrentWeek() {
-  const today = new Date();
-  const cw = getCalendarWeek(today);
-  const url = `plans/cw${cw}.json`;
-
-  fetch(url)
+function loadWeekFile(filename) {
+  fetch(`plans/${filename}`)
     .then(res => res.json())
     .then(data => {
       localStorage.setItem("reha-sessions", JSON.stringify(data.schedule));
       renderToday();
     })
     .catch(err => {
-      console.error("Fehler beim Laden der Wochenplanung:", err);
+      console.error("Fehler beim Laden:", err);
+      document.getElementById("session-list").innerHTML = "<p>⚠️ Fehler beim Laden der Datei.</p>";
     });
 }
 
@@ -92,7 +89,33 @@ function switchTab(id) {
   }
 }
 
+function loadAvailableWeeks() {
+  const weekSelector = document.getElementById("week-selector");
+  fetch("plans/index.json")
+    .then(res => res.json())
+    .then(weeks => {
+      weekSelector.innerHTML = "";
+      weeks.sort().forEach(weekFile => {
+        const option = document.createElement("option");
+        option.value = weekFile;
+        option.textContent = weekFile.replace(".json", "").toUpperCase();
+        weekSelector.appendChild(option);
+      });
+
+      const currentWeek = `cw${getCalendarWeek(new Date())}.json`;
+      weekSelector.value = currentWeek;
+      loadWeekFile(currentWeek);
+    })
+    .catch(err => {
+      console.error("Fehler beim Laden der Wochenliste:", err);
+    });
+
+  weekSelector.addEventListener("change", (e) => {
+    loadWeekFile(e.target.value);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  loadCurrentWeek();
+  loadAvailableWeeks();
   switchTab("home");
 });

@@ -1,19 +1,8 @@
 {
-  "patient": {
-    "name": "Daniel Nagel",
-    "patient_number": "4041301",
-    "room": "40B424 / 4. Etage",
-    "stay": {
-      "from": "2025-06-24",
-      "to": "2025-08-05"
-    },
-    "doctor": "Dr. Mikulski, Andreas",
-    "therapist": "Svenja Oestreicher"
-  },
   "schedule": [
     {
       "date": "2025-07-07",
-      "appointments": [
+      "sessions": [
         {
           "time": "07:30",
           "activity": "Bewegungstraining",
@@ -54,7 +43,7 @@
     },
     {
       "date": "2025-07-08",
-      "appointments": [
+      "sessions": [
         {
           "time": "07:00",
           "activity": "Therapeutisches Frühstück",
@@ -95,7 +84,7 @@
     },
     {
       "date": "2025-07-09",
-      "appointments": [
+      "sessions": [
         {
           "time": "07:30",
           "activity": "Bewegungstraining",
@@ -130,7 +119,7 @@
     },
     {
       "date": "2025-07-10",
-      "appointments": [
+      "sessions": [
         {
           "time": "09:00",
           "activity": "Visite A2",
@@ -165,7 +154,7 @@
     },
     {
       "date": "2025-07-11",
-      "appointments": [
+      "sessions": [
         {
           "time": "07:00",
           "activity": "Therapeutisches Frühstück",

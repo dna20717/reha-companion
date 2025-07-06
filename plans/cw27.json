@@ -2,7 +2,7 @@
   "schedule": [
     {
       "date": "2025-07-05",
-      "appointments": [
+      "sessions": [
         {
           "time": "07:30",
           "activity": "Bewegungstraining",

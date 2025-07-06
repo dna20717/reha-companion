@@ -1,25 +1,29 @@
 body {
   margin: 0;
   font-family: sans-serif;
-  background: rgba(255, 255, 255, 0.85);
+  background: url('bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+#app {
   backdrop-filter: blur(10px);
-  color: #222;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem;
 }
-header {
-  background: rgba(240, 240, 255, 0.6);
-  padding: 1em;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
+
 .card {
-  background: rgba(255, 255, 255, 0.6);
-  margin: 1em;
-  padding: 1em;
-  border-radius: 1em;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-.day-label {
-  margin: 2em 1em 1em;
+
+.day-header {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.2rem;
+  margin-top: 2rem;
 }

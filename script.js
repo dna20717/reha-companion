@@ -1,48 +1,37 @@
-async function loadPlans() {
-  const container = document.getElementById("schedule-container");
-  try {
-    const res = await fetch("plans/index.json");
-    const planFiles = await res.json();
-    let allSessions = [];
+const content = document.getElementById("content");
 
-    for (const file of planFiles) {
-      const planRes = await fetch("plans/" + file);
-      const plan = await planRes.json();
-      for (const day of plan.schedule) {
-        for (const s of day.sessions || day.appointments || []) {
-          allSessions.push({
-            date: day.date,
-            ...s
-          });
+function loadPlans() {
+  fetch('plans/cw27.json')
+    .then(response => response.json())
+    .then(data => {
+      const allSessions = [];
+      data.schedule.forEach(day => {
+        const date = new Date(day.date);
+        const dayName = date.toLocaleDateString('de-DE', { weekday: 'short' });
+        const dateLabel = `${dayName}, ${date.toLocaleDateString('de-DE')}`;
+        allSessions.push({ type: "header", label: dateLabel });
+        day.appointments.forEach(app => {
+          allSessions.push({ ...app, date: day.date });
+        });
+      });
+
+      allSessions.forEach(entry => {
+        const div = document.createElement("div");
+        if (entry.type === "header") {
+          div.className = "day-header";
+          div.textContent = entry.label;
+        } else {
+          div.className = "card";
+          div.innerHTML = `<strong>${entry.time}</strong> – ${entry.activity}<br/>
+            <em>${entry.staff}</em><br/>
+            <small>${entry.location}</small>`;
         }
-      }
-    }
-
-    allSessions.sort((a, b) => {
-      const dtA = new Date(a.date + "T" + a.time);
-      const dtB = new Date(b.date + "T" + b.time);
-      return dtA - dtB;
+        content.appendChild(div);
+      });
+    })
+    .catch(() => {
+      content.innerHTML = "<p>Es konnten keine Pläne geladen werden.</p>";
     });
-
-    let lastDate = "";
-    container.innerHTML = "";
-    for (const s of allSessions) {
-      if (s.date !== lastDate) {
-        const label = document.createElement("div");
-        label.className = "day-label";
-        label.textContent = new Date(s.date).toLocaleDateString("de-DE", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        container.appendChild(label);
-        lastDate = s.date;
-      }
-
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<strong>${s.time}</strong> – ${s.activity}<br><em>${s.staff}</em><br><small>${s.location}</small>`;
-      container.appendChild(card);
-    }
-  } catch (e) {
-    container.innerHTML = "<p>Fehler beim Laden der Pläne 😢</p>";
-    console.error(e);
-  }
 }
-loadPlans();
+
+window.onload = loadPlans;

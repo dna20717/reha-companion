@@ -39,6 +39,27 @@ header h1 {
   font-family: monospace;
 }
 
+nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+nav button {
+  padding: 0.5rem 1rem;
+  background: #eee;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+nav button.active {
+  background: #cce5ff;
+  color: #003366;
+}
+
 .card {
   background: rgba(255, 255, 255, 0.5);
   border-radius: 12px;
@@ -47,11 +68,13 @@ header h1 {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   color: #111;
   text-shadow: 0 1px 1px rgba(255,255,255,0.6);
+  position: relative;
 }
 
 .card.past {
-  opacity: 0.5;
-  filter: grayscale(100%);
+  background: rgba(240, 240, 240, 0.4);
+  color: #666;
+  text-shadow: none;
 }
 
 .day-header {
@@ -64,9 +87,4 @@ header h1 {
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   color: #222;
-}
-
-.day-header.past {
-  opacity: 0.4;
-  filter: grayscale(100%);
 }

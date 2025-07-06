@@ -1,6 +1,25 @@
 const content = document.getElementById("content");
 const countdownEl = document.getElementById("countdown");
+const navEl = document.createElement("nav");
+document.body.insertBefore(navEl, document.getElementById("app"));
+
 const endDate = new Date("2025-08-05T00:00:00");
+
+const sessionStyles = {
+  "Einzel": { emoji: "🧑‍⚕️", color: "#fce4ec" },
+  "Gruppe": { emoji: "🧑‍🤝‍🧑", color: "#e3f2fd" },
+  "Sport": { emoji: "🏃‍♂️", color: "#e8f5e9" },
+  "Gedanke": { emoji: "💭", color: "#fff3e0" },
+  "default": { emoji: "📋", color: "#eeeeee" }
+};
+
+function detectForm(activity) {
+  if (/einzel/i.test(activity)) return "Einzel";
+  if (/gruppe/i.test(activity)) return "Gruppe";
+  if (/sport|training|gymnastik|wassergymnastik|bewegung/i.test(activity)) return "Sport";
+  if (/pmr|genuss|stress|gedanke|wahrnehmung|seminar|visite/i.test(activity)) return "Gedanke";
+  return "default";
+}
 
 function updateCountdown() {
   const now = new Date();
@@ -19,10 +38,13 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-function loadPlans() {
-  fetch('plans/cw27.json')
+let activeButton = null;
+
+function loadPlan(filename) {
+  fetch("plans/" + filename)
     .then(response => response.json())
     .then(data => {
+      content.innerHTML = "";
       const allSessions = [];
       data.schedule.forEach(day => {
         const date = new Date(day.date);
@@ -43,8 +65,12 @@ function loadPlans() {
           div.className = "day-header" + (entry.isPast ? " past" : "");
           div.textContent = entry.label;
         } else {
+          const form = detectForm(entry.activity);
+          const style = sessionStyles[form] || sessionStyles["default"];
+          const emoji = entry.isPast ? "✅" : style.emoji;
           div.className = "card" + (entry.isPast ? " past" : "");
-          div.innerHTML = `<strong>${entry.time}</strong> – ${entry.activity}<br/>
+          div.style.backgroundColor = style.color;
+          div.innerHTML = `<strong>${emoji} ${entry.time}</strong> – ${entry.activity}<br/>
             <em>${entry.staff}</em><br/>
             <small>${entry.location}</small>`;
         }
@@ -56,4 +82,29 @@ function loadPlans() {
     });
 }
 
-window.onload = loadPlans;
+function setupNavigation() {
+  fetch("plans/index.json")
+    .then(response => response.json())
+    .then(files => {
+      navEl.innerHTML = "";
+      files.forEach(file => {
+        const match = file.match(/cw(\d+)\.json/i);
+        const label = match ? `KW ${match[1]}` : file;
+        const button = document.createElement("button");
+        button.textContent = label;
+        button.onclick = () => {
+          if (activeButton) activeButton.classList.remove("active");
+          button.classList.add("active");
+          activeButton = button;
+          loadPlan(file);
+        };
+        navEl.appendChild(button);
+      });
+      // Auto-load first plan
+      if (files.length > 0) {
+        navEl.firstChild.click();
+      }
+    });
+}
+
+window.onload = setupNavigation;

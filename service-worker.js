@@ -1,3 +1,4 @@
+
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open('reha-cache').then(function(cache) {

@@ -1,1 +1,9 @@
-{}
+{
+  "name": "ReHa Companion",
+  "short_name": "ReHa",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#bbdefb",
+  "icons": []
+}

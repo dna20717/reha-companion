@@ -1,1 +1,25 @@
-// styles.css placeholder
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  color: #222;
+}
+header {
+  background: rgba(240, 240, 255, 0.6);
+  padding: 1em;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.card {
+  background: rgba(255, 255, 255, 0.6);
+  margin: 1em;
+  padding: 1em;
+  border-radius: 1em;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.day-label {
+  margin: 2em 1em 1em;
+  font-weight: bold;
+  font-size: 1.2em;
+}

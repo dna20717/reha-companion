@@ -56,6 +56,15 @@
       "date": "2025-07-08",
       "appointments": [
         {
+          "time": "06:30",
+          "activity": "Wiegen",
+          "staff": "Stationsschwester",
+          "location": "4. OG Flur C Raum 460"
+        },
+        
+        
+        
+        {
           "time": "07:00",
           "activity": "Therapeutisches Frühstück",
           "staff": "Frau Schneider",

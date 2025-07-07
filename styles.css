@@ -1,1 +1,76 @@
-/* placeholder */
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-image: url('background.png');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  color: #fff;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  padding: 1.2rem 1rem;
+  text-align: center;
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0 0 0.6rem;
+}
+
+#countdown {
+  font-size: 1.6rem;
+  font-family: "Courier New", monospace;
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+}
+
+#session-info {
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+nav#week-nav {
+  display: flex;
+  overflow-x: auto;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.day-card {
+  background: rgba(255, 255, 255, 0.1);
+  margin: 1rem auto;
+  border-radius: 12px;
+  max-width: 600px;
+  padding: 0.5rem 1rem;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.day-card.past {
+  opacity: 0.5;
+}
+
+.session {
+  margin: 0.6rem 0;
+  padding: 0.6rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.session.done {
+  text-decoration: line-through;
+  opacity: 0.6;
+}

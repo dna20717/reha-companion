@@ -1,5 +1,6 @@
 const content = document.getElementById("content");
 const countdownEl = document.getElementById("countdown");
+const sessionStatusEl = document.getElementById("session-status");
 const navEl = document.createElement("nav");
 document.body.insertBefore(navEl, document.getElementById("app"));
 
@@ -39,20 +40,36 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
 let activeButton = null;
+let allSessions = [];
+
+function updateSessionStatus() {
+  const now = new Date();
+  const futureSessions = allSessions.filter(app => {
+    const sessionDate = new Date(app.fullDate + 'T' + app.time);
+    return sessionDate > now;
+  });
+
+  if (futureSessions.length === 0) {
+    sessionStatusEl.textContent = "Alles erledigt. Zeit zum Entspannen. 🧘‍♀️🌸";
+  } else if (futureSessions.length === 1) {
+    sessionStatusEl.textContent = "Du hast nur noch 1 Session vor dir.";
+  } else {
+    sessionStatusEl.textContent = `Du hast noch ${futureSessions.length} Sessions vor dir.`;
+  }
+}
+
+setInterval(updateSessionStatus, 10000);
 
 function loadPlan(filename) {
   fetch("plans/" + filename)
     .then(response => response.json())
     .then(data => {
+      allSessions = [];
       content.innerHTML = "";
       data.schedule.forEach(day => {
         const date = new Date(day.date);
-        const today = new Date();
-        today.setHours(0,0,0,0);
-        const isPast = date < today;
-
         const wrapper = document.createElement("div");
-        wrapper.className = "day-card" + (isPast ? " past" : "");
+        wrapper.className = "day-card";
 
         const header = document.createElement("div");
         header.className = "day-card-header";
@@ -60,12 +77,11 @@ function loadPlan(filename) {
 
         const toggle = document.createElement("span");
         toggle.className = "toggle";
-        toggle.textContent = isPast ? "⏵" : "⏷";
+        toggle.textContent = "⏷";
         header.appendChild(toggle);
 
         const contentDiv = document.createElement("div");
         contentDiv.className = "day-card-content";
-        if (isPast) contentDiv.classList.add("collapsed");
 
         header.addEventListener("click", () => {
           const isCollapsed = contentDiv.classList.toggle("collapsed");
@@ -75,6 +91,10 @@ function loadPlan(filename) {
         wrapper.appendChild(header);
 
         day.appointments.forEach(app => {
+          const sessionTime = new Date(day.date + "T" + app.time);
+          const now = new Date();
+          const isPast = sessionTime < now;
+
           const form = detectForm(app.activity);
           const style = sessionStyles[form] || sessionStyles["default"];
           const emoji = isPast ? "✅" : style.emoji;
@@ -85,11 +105,15 @@ function loadPlan(filename) {
             <em>${app.staff}</em><br/>
             <small>${app.location}</small>`;
           contentDiv.appendChild(card);
+
+          allSessions.push({ ...app, fullDate: day.date });
         });
 
         wrapper.appendChild(contentDiv);
         content.appendChild(wrapper);
       });
+
+      updateSessionStatus();
     })
     .catch(() => {
       content.innerHTML = "<p>Es konnten keine Pläne geladen werden.</p>";
@@ -102,7 +126,7 @@ function setupNavigation() {
     .then(files => {
       navEl.innerHTML = "";
       files.forEach(file => {
-        const match = file.match(/cw(\d+)\.json/i);
+        const match = file.match(/cw(\\d+)\\.json/i);
         const label = match ? `KW ${match[1]}` : file;
         const button = document.createElement("button");
         button.textContent = label;

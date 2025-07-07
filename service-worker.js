@@ -1,3 +1,4 @@
+
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open('reha-cache').then(function(cache) {
@@ -6,8 +7,7 @@ self.addEventListener('install', function(event) {
         './index.html',
         './styles.css',
         './script.js',
-        './manifest.webmanifest',
-        './background.png'
+        './manifest.json'
       ]);
     })
   );

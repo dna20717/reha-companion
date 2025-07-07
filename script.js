@@ -1,5 +1,10 @@
 const content = document.getElementById("content");
 const countdownEl = document.getElementById("countdown");
+
+const sessionInfo = document.createElement("div");
+sessionInfo.id = "session-info";
+countdownEl.insertAdjacentElement("afterend", sessionInfo);
+
 const navEl = document.createElement("nav");
 document.body.insertBefore(navEl, document.getElementById("app"));
 
@@ -40,15 +45,26 @@ updateCountdown();
 
 let activeButton = null;
 
+function formatDate(date) {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}.${month}.${year}`;
+}
+
 function loadPlan(filename) {
   fetch("plans/" + filename)
     .then(response => response.json())
     .then(data => {
       content.innerHTML = "";
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      let sessionsTodayRemaining = 0;
+
       data.schedule.forEach(day => {
         const date = new Date(day.date);
-        const today = new Date();
-        today.setHours(0,0,0,0);
+        const isToday = date.toDateString() === today.toDateString();
         const isPast = date < today;
 
         const wrapper = document.createElement("div");
@@ -56,7 +72,7 @@ function loadPlan(filename) {
 
         const header = document.createElement("div");
         header.className = "day-card-header";
-        header.innerHTML = `📅 ${date.toLocaleDateString("de-DE", { weekday: 'short' })}, ${date.toLocaleDateString("de-DE")}`;
+        header.innerHTML = `📅 ${date.toLocaleDateString("de-DE", { weekday: 'short' })}, ${formatDate(date)}`;
 
         const toggle = document.createElement("span");
         toggle.className = "toggle";
@@ -75,11 +91,20 @@ function loadPlan(filename) {
         wrapper.appendChild(header);
 
         day.appointments.forEach(app => {
+          const sessionTime = new Date(`${day.date}T${app.time}`);
+          const now = new Date();
+
+          const isPastSession = sessionTime < now;
+          const isTodaySession = isToday && !isPastSession;
+
+          if (isTodaySession) sessionsTodayRemaining++;
+
           const form = detectForm(app.activity);
           const style = sessionStyles[form] || sessionStyles["default"];
-          const emoji = isPast ? "✅" : style.emoji;
+          const emoji = isPastSession ? "✅" : style.emoji;
+
           const card = document.createElement("div");
-          card.className = "card" + (isPast ? " past" : "");
+          card.className = "card" + (isPastSession ? " past" : "");
           card.style.backgroundColor = style.color;
           card.innerHTML = `<strong>${emoji} ${app.time}</strong> – ${app.activity}<br/>
             <em>${app.staff}</em><br/>
@@ -90,6 +115,13 @@ function loadPlan(filename) {
         wrapper.appendChild(contentDiv);
         content.appendChild(wrapper);
       });
+
+      // Update session info
+      if (sessionsTodayRemaining > 0) {
+        sessionInfo.textContent = `Du hast heute noch ${sessionsTodayRemaining} Session${sessionsTodayRemaining > 1 ? "s" : ""} vor dir.`;
+      } else {
+        sessionInfo.textContent = "Alles erledigt. Zeit zum Entspannen. 🧘‍♂️🪷";
+      }
     })
     .catch(() => {
       content.innerHTML = "<p>Es konnten keine Pläne geladen werden.</p>";

@@ -1,3 +1,4 @@
+
 const content = document.getElementById("content");
 const countdownEl = document.getElementById("countdown");
 const sessionStatusEl = document.getElementById("session-status");
@@ -40,34 +41,50 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
 let activeButton = null;
-let allSessions = [];
+let todaySessions = [];
 
 function updateSessionStatus() {
   const now = new Date();
-  const futureSessions = allSessions.filter(app => {
+  const remaining = todaySessions.filter(app => {
     const sessionDate = new Date(app.fullDate + 'T' + app.time);
     return sessionDate > now;
   });
 
-  if (futureSessions.length === 0) {
+  if (remaining.length === 0) {
     sessionStatusEl.textContent = "Alles erledigt. Zeit zum Entspannen. 🧘‍♀️🌸";
-  } else if (futureSessions.length === 1) {
+  } else if (remaining.length === 1) {
     sessionStatusEl.textContent = "Du hast nur noch 1 Session vor dir.";
   } else {
-    sessionStatusEl.textContent = `Du hast noch ${futureSessions.length} Sessions vor dir.`;
+    sessionStatusEl.textContent = `Du hast noch ${remaining.length} Sessions vor dir.`;
   }
 }
 
 setInterval(updateSessionStatus, 10000);
 
+function isDayCollapsed(dateStr) {
+  const state = JSON.parse(localStorage.getItem("collapsedDays") || "{}");
+  return state[dateStr];
+}
+
+function setDayCollapsed(dateStr, collapsed) {
+  const state = JSON.parse(localStorage.getItem("collapsedDays") || "{}");
+  state[dateStr] = collapsed;
+  localStorage.setItem("collapsedDays", JSON.stringify(state));
+}
+
 function loadPlan(filename) {
   fetch("plans/" + filename)
     .then(response => response.json())
     .then(data => {
-      allSessions = [];
       content.innerHTML = "";
+      todaySessions = [];
+
       data.schedule.forEach(day => {
         const date = new Date(day.date);
+        const dateStr = date.toISOString().split("T")[0];
+        const todayStr = new Date().toISOString().split("T")[0];
+        let hasOpenToday = dateStr === todayStr;
+
         const wrapper = document.createElement("div");
         wrapper.className = "day-card";
 
@@ -77,27 +94,25 @@ function loadPlan(filename) {
 
         const toggle = document.createElement("span");
         toggle.className = "toggle";
-        toggle.textContent = "⏷";
         header.appendChild(toggle);
 
         const contentDiv = document.createElement("div");
         contentDiv.className = "day-card-content";
 
-        header.addEventListener("click", () => {
-          const isCollapsed = contentDiv.classList.toggle("collapsed");
-          toggle.textContent = isCollapsed ? "⏵" : "⏷";
-        });
-
-        wrapper.appendChild(header);
+        let allPast = true;
+        let openToday = [];
 
         day.appointments.forEach(app => {
           const sessionTime = new Date(day.date + "T" + app.time);
           const now = new Date();
           const isPast = sessionTime < now;
+          if (!isPast) allPast = false;
+          if (dateStr === todayStr && !isPast) openToday.push(app);
 
           const form = detectForm(app.activity);
           const style = sessionStyles[form] || sessionStyles["default"];
           const emoji = isPast ? "✅" : style.emoji;
+
           const card = document.createElement("div");
           card.className = "card" + (isPast ? " past" : "");
           card.style.backgroundColor = style.color;
@@ -105,12 +120,26 @@ function loadPlan(filename) {
             <em>${app.staff}</em><br/>
             <small>${app.location}</small>`;
           contentDiv.appendChild(card);
-
-          allSessions.push({ ...app, fullDate: day.date });
         });
 
+        // Collapse logic
+        const collapsedInitially = allPast || isDayCollapsed(dateStr);
+        if (collapsedInitially) contentDiv.classList.add("collapsed");
+        toggle.textContent = collapsedInitially ? "⏵" : "⏷";
+
+        header.addEventListener("click", () => {
+          const isCollapsed = contentDiv.classList.toggle("collapsed");
+          toggle.textContent = isCollapsed ? "⏵" : "⏷";
+          setDayCollapsed(dateStr, isCollapsed);
+        });
+
+        wrapper.appendChild(header);
         wrapper.appendChild(contentDiv);
         content.appendChild(wrapper);
+
+        if (dateStr === todayStr) {
+          todaySessions = openToday.map(app => ({ ...app, fullDate: day.date }));
+        }
       });
 
       updateSessionStatus();
@@ -126,8 +155,8 @@ function setupNavigation() {
     .then(files => {
       navEl.innerHTML = "";
       files.forEach(file => {
-        const match = file.match(/cw(\\d+)\\.json/i);
-        const label = match ? `KW ${match[1]}` : file;
+        const match = file.match(/cw(\d+)\.json/i);
+        const label = match ? `CW${match[1]}` : file;
         const button = document.createElement("button");
         button.textContent = label;
         button.onclick = () => {

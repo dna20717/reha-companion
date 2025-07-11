@@ -1,13 +1,25 @@
 {
+  "week": "CW28",
+  "patient": {
+    "name": "Daniel Nagel",
+    "patient_number": "4041301",
+    "room": "40B424 / 4. Etage",
+    "stay": {
+      "from": "2025-06-24",
+      "to": "2025-08-05"
+    },
+    "doctor": "Dr. Bendiek, Christa",
+    "therapist": "Svenja Oestreicher"
+  },
   "schedule": [
     {
-      "date": "2025-07-07",
-      "sessions": [
+      "date": "2025-07-14",
+      "appointments": [
         {
-          "time": "07:30",
-          "activity": "Bewegungstraining",
-          "staff": "Frau Schmidt",
-          "location": "UG Flur D Turnhalle"
+          "time": "08:00",
+          "activity": "Wassergymnastik",
+          "staff": "Frau Köchel",
+          "location": "UG Flur D Schwimmhalle"
         },
         {
           "time": "10:30",
@@ -17,33 +29,21 @@
         },
         {
           "time": "13:00",
-          "activity": "Genußgruppe",
-          "staff": "Frau Pagiatakis",
+          "activity": "Genussgruppe",
+          "staff": "Frau Langhammer",
           "location": "2. OG Gruppenraum 2.11"
         },
         {
-          "time": "15:00",
-          "activity": "Seminar Eßen & Trinken Teil 1",
-          "staff": "Frau Frank",
-          "location": "EG Flur B Raum 611"
-        },
-        {
-          "time": "16:30",
-          "activity": "PMR",
-          "staff": "Herr Schebera",
-          "location": "1. OG Gruppenraum 1.11"
-        },
-        {
-          "time": "17:00",
-          "activity": "Seminar Leben mit oder ohne Streß, aber wie?",
-          "staff": "Herr Schebera",
-          "location": "UG Flur D Videoraum 338"
+          "time": "15:30",
+          "activity": "Bewegungstraining",
+          "staff": "Herr Trautsch",
+          "location": "UG Flur D Gymnastikraum 370"
         }
       ]
     },
     {
-      "date": "2025-07-08",
-      "sessions": [
+      "date": "2025-07-15",
+      "appointments": [
         {
           "time": "07:00",
           "activity": "Therapeutisches Frühstück",
@@ -51,13 +51,7 @@
           "location": "EG Flur D Speisesaal"
         },
         {
-          "time": "08:00",
-          "activity": "Ergotherapie-Gruppe",
-          "staff": "Herczeg, Katja",
-          "location": "EG Flur C Raum 715"
-        },
-        {
-          "time": "09:00",
+          "time": "08:30",
           "activity": "Bezugsgruppe",
           "staff": "Frau Oestreicher, Frau Balzer",
           "location": "1. OG Gruppenraum 1.16"
@@ -65,30 +59,30 @@
         {
           "time": "11:00",
           "activity": "Bauch-Oberschenkel-Po-Training",
-          "staff": "Frau Köchel",
+          "staff": "Frau Krain",
           "location": "UG Flur D Gymnastikraum 370"
         },
         {
-          "time": "13:00",
-          "activity": "Streßgruppe",
-          "staff": "Frau Kipp",
-          "location": "3. OG Gruppenraum 3.11"
+          "time": "13:30",
+          "activity": "Muskelaufbautraining",
+          "staff": "Frau Krain",
+          "location": "UG Flur C Wartebereich Physio"
         },
         {
-          "time": "15:00",
-          "activity": "Psych. Einzelgespräch",
-          "staff": "Frau Oestreicher",
-          "location": "2. OG Rondell Raum 220"
+          "time": "14:00",
+          "activity": "PMR",
+          "staff": "Frau Balzer",
+          "location": "1. OG Gruppenraum 1.16"
         }
       ]
     },
     {
-      "date": "2025-07-09",
-      "sessions": [
+      "date": "2025-07-16",
+      "appointments": [
         {
           "time": "07:30",
           "activity": "Bewegungstraining",
-          "staff": "Frau Kohlberg",
+          "staff": "Herr Müller",
           "location": "UG Flur D Turnhalle"
         },
         {
@@ -104,7 +98,7 @@
           "location": "EG Flur D Raum 832"
         },
         {
-          "time": "14:30",
+          "time": "13:00",
           "activity": "Körperwahrnehmung",
           "staff": "Frau Langhammer",
           "location": "UG Flur D Gymnastikraum 370"
@@ -118,19 +112,19 @@
       ]
     },
     {
-      "date": "2025-07-10",
-      "sessions": [
+      "date": "2025-07-17",
+      "appointments": [
+        {
+          "time": "08:00",
+          "activity": "Wassergymnastik",
+          "staff": "Herr Trautsch",
+          "location": "UG Flur D Schwimmhalle"
+        },
         {
           "time": "09:00",
           "activity": "Visite A2",
           "staff": "Frau Oestreicher, Frau Balzer, Frau Srdinko",
-          "location": "1. OG Flur D Raum 171"
-        },
-        {
-          "time": "10:00",
-          "activity": "Muskelaufbautraining",
-          "staff": "Herr Trautsch",
-          "location": "UG Flur C Wartebereich Physio"
+          "location": "UG Flur D Raum 171"
         },
         {
           "time": "10:30",
@@ -139,22 +133,28 @@
           "location": "1. OG Gruppenraum 1.16"
         },
         {
-          "time": "14:30",
-          "activity": "Waßergymnastik",
-          "staff": "Frau Köchel",
-          "location": "UG Flur D Schwimmhalle"
+          "time": "13:00",
+          "activity": "Fangopackung",
+          "staff": "Frau Eidenschink",
+          "location": "2. OG Wartebereich Physio"
+        },
+        {
+          "time": "14:00",
+          "activity": "Psych. Einzelgespräch",
+          "staff": "Frau Oestreicher",
+          "location": "2. OG Rondell Raum 220"
         },
         {
           "time": "15:30",
-          "activity": "Reßourcengruppe",
+          "activity": "Ressourcengruppe",
           "staff": "Frau Schirmer",
           "location": "3. OG Gruppenraum 3.11"
         }
       ]
     },
     {
-      "date": "2025-07-11",
-      "sessions": [
+      "date": "2025-07-18",
+      "appointments": [
         {
           "time": "07:00",
           "activity": "Therapeutisches Frühstück",
@@ -168,20 +168,14 @@
           "location": "1. OG Gruppenraum 1.16"
         },
         {
-          "time": "11:00",
-          "activity": "Fangopackung",
-          "staff": "Frau Eidenschink",
-          "location": "UG Flur C Wartebereich Physio"
-        },
-        {
-          "time": "13:00",
+          "time": "10:30",
           "activity": "Ergotherapie-Gruppe",
           "staff": "Herczeg, Katja",
           "location": "EG Flur C Raum 715"
         },
         {
           "time": "15:00",
-          "activity": "Waßergymnastik",
+          "activity": "Wassergymnastik",
           "staff": "Frau Köchel",
           "location": "UG Flur D Schwimmhalle"
         }

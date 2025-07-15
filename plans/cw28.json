@@ -51,7 +51,7 @@
           "location": "EG Flur D Speisesaal"
         },
         {
-          "time": "08:30",
+          "time": "09:00",
           "activity": "Bezugsgruppe",
           "staff": "Frau Oestreicher, Frau Balzer",
           "location": "1. OG Gruppenraum 1.16"
@@ -62,10 +62,18 @@
           "staff": "Frau Krain",
           "location": "UG Flur D Gymnastikraum 370"
         },
-        {
-          "time": "13:30",
-          "activity": "Muskelaufbautraining",
+
+       {
+          "time": "13:00",
+          "activity": "Stressgruppe",
           "staff": "Frau Krain",
+          "location": "3. OG Gruppenraum 3.11"
+        },
+        
+        {
+          "time": "14:30",
+          "activity": "Muskelaufbautraining",
+          "staff": "Frau Schmidt",
           "location": "UG Flur C Wartebereich Physio"
         },
         {
@@ -73,6 +81,12 @@
           "activity": "PMR",
           "staff": "Frau Balzer",
           "location": "1. OG Gruppenraum 1.16"
+        },
+            {
+          "time": "17:00",
+          "activity": "PMR",
+          "staff": "Frau Wölfl",
+          "location": "4. OG Gruppenraum 4.16"
         }
       ]
     },
@@ -98,7 +112,7 @@
           "location": "EG Flur D Raum 832"
         },
         {
-          "time": "13:00",
+          "time": "14:30",
           "activity": "Körperwahrnehmung",
           "staff": "Frau Langhammer",
           "location": "UG Flur D Gymnastikraum 370"
@@ -121,7 +135,7 @@
           "location": "UG Flur D Schwimmhalle"
         },
         {
-          "time": "09:00",
+          "time": "09:30",
           "activity": "Visite A2",
           "staff": "Frau Oestreicher, Frau Balzer, Frau Srdinko",
           "location": "UG Flur D Raum 171"
@@ -168,7 +182,7 @@
           "location": "1. OG Gruppenraum 1.16"
         },
         {
-          "time": "10:30",
+          "time": "13:30",
           "activity": "Ergotherapie-Gruppe",
           "staff": "Herczeg, Katja",
           "location": "EG Flur C Raum 715"
